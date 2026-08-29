@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Search News{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>Search News</h1>
+        <p class="subtitle">Search by keyword or category</p>
+    </div>
+
+    <div class="card form-card">
+        <form action="{{ url_for('search') }}" method="GET">
+            <label for="query">Enter keyword or category</label>
+            <input type="text" id="query" name="query" placeholder="e.g. sports, cricket, ai" value="{{ query }}">
+
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </div>
+
+    {% if searched %}
+        {% if results|length == 0 %}
+            <div class="message message-info">
+                No matching news found.
+            </div>
+        {% else %}
+            <div class="news-grid">
+                {% for article in results %}
+                    <div class="card news-card">
+                        <span class="badge">{{ article.category }}</span>
+                        <h3>{{ article.title }}</h3>
+                        <p class="description">{{ article.description }}</p>
+                        <p class="keywords"><strong>Keywords:</strong> {{ article.keywords | join(', ') }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
