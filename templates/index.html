@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Home - News Category Classifier{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>NEWS CATEGORY CLASSIFIER</h1>
+        <p class="subtitle">Rule-Based News Analysis System</p>
+    </div>
+
+    <div class="card form-card">
+        <h2>Add News Article</h2>
+
+        <form action="{{ url_for('add') }}" method="POST">
+            <label for="title">News Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter news title">
+
+            <label for="description">News Description</label>
+            <textarea id="description" name="description" rows="4" placeholder="Enter news description"></textarea>
+
+            <button type="submit" class="btn">Add &amp; Analyze News</button>
+        </form>
+    </div>
+
+    {% if error %}
+        <div class="message message-error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    {% if duplicate %}
+        <div class="message message-duplicate">
+            <strong>Duplicate news detected!</strong><br>
+            Recommendation: Do not add this article.
+        </div>
+    {% endif %}
+
+    {% if result %}
+        <div class="card result-card">
+            <h2>Analysis Result</h2>
+
+            <p class="status-success">News added successfully</p>
+
+            <p><strong>Category:</strong>
+                <span class="badge">{{ result.category }}</span>
+            </p>
+
+            <p><strong>Extracted Keywords:</strong>
+                {{ result.keywords | join(' • ') }}
+            </p>
+
+            <a href="{{ url_for('archive') }}" class="btn btn-secondary">View News Archive</a>
+        </div>
+    {% endif %}
+
+{% endblock %}
