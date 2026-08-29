@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}News Archive{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>News Archive</h1>
+        <p class="subtitle">All articles currently stored in memory</p>
+    </div>
+
+    {% if articles|length == 0 %}
+        <div class="message message-info">
+            No news articles available.
+        </div>
+    {% else %}
+        <div class="news-grid">
+            {% for article in articles %}
+                <div class="card news-card">
+                    <span class="badge">{{ article.category }}</span>
+                    <h3>{{ article.title }}</h3>
+                    <p class="description">{{ article.description }}</p>
+                    <p class="keywords"><strong>Keywords:</strong> {{ article.keywords | join(', ') }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}
